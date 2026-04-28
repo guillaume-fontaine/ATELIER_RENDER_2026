@@ -109,11 +109,21 @@ jobs:
             -var="db_password=${{ secrets.DB_PASSWORD }}"
         working-directory: terraform
 
-      - name: Run Liquibase migrations
-        uses: liquibase/liquibase-action@v2
+      - name: Setup Liquibase
+        uses: liquibase/setup-liquibase@v2
         with:
-          operation: 'update'
-          classpath: './liquibase'
-          url: 'jdbc:postgresql://${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}'
-          username: '${{ secrets.DB_USER }}'
-          password: '${{ secrets.DB_PASSWORD }}'
+          version: '4.33.0'
+          edition: 'oss'
+
+      - name: Run Liquibase migrations
+        # Use 'run' to execute the CLI directly
+        run: liquibase update
+        env:
+          # Liquibase automatically maps these env vars to the command flags
+          LIQUIBASE_COMMAND_URL: "jdbc:postgresql://${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}"
+          LIQUIBASE_COMMAND_USERNAME: ${{ secrets.DB_USER }}
+          LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+          # Mapping the 'classpath' and 'changelog'
+          LIQUIBASE_COMMAND_CLASSPATH: "./liquibase"
+          LIQUIBASE_COMMAND_CHANGELOG_FILE: "db.changelog-master.xml" # Update this path if needed
