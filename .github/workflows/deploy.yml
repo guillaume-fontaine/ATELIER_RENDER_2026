@@ -125,5 +125,5 @@ jobs:
           LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
           # Mapping the 'classpath' and 'changelog'
-          LIQUIBASE_COMMAND_CLASSPATH: "./liquibase"
-          LIQUIBASE_COMMAND_CHANGELOG_FILE: "db.changelog-master.xml" # Update this path if needed
+          LIQUIBASE_SEARCH_PATH: "liquibase"
+          LIQUIBASE_COMMAND_CHANGELOG_FILE: "liquibase/db.changelog.xml" # Update this path if needed
