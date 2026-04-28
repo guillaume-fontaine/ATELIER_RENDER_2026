@@ -18,7 +18,7 @@ variable "github_actor" {
 }
 
 resource "render_web_service" "flask_app" {
-  name   = "flask-render-iac-v2-${var.github_actor}"
+  name   = "flask-render-iac-${var.github_actor}"
   plan   = "free"
   region = "frankfurt"
 

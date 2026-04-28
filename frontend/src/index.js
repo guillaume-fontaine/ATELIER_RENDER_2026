@@ -8,7 +8,7 @@ function App() {
   useEffect(() => {
     // Remplacer l'URL ci-dessous par l'URL de votre service web Flask sur Render
     // Exemple : 'https://flask-render-iac-guillaume.onrender.com/data'
-    fetch('https://flask-render-iac-v2-guillaume-fontaine.onrender.com/data')
+    fetch('https://flask-render-iac-guillaume-fontaine.onrender.com/data')
       .then(res => {
         if (!res.ok) {
           throw new Error('Erreur réseau');
