@@ -102,5 +102,18 @@ jobs:
             -var="render_owner_id=${{ secrets.RENDER_OWNER_ID }}" \
             -var="image_url=${IMAGE_URL}" \
             -var="image_tag=${IMAGE_TAG}" \
-            -var="github_actor=${ACTOR}"
+            -var="github_actor=${ACTOR}" \
+            -var="db_host=${{ secrets.DB_HOST }}" \
+            -var="db_name=${{ secrets.DB_NAME }}" \
+            -var="db_user=${{ secrets.DB_USER }}" \
+            -var="db_password=${{ secrets.DB_PASSWORD }}"
         working-directory: terraform
+
+      - name: Run Liquibase migrations
+        uses: liquibase/liquibase-action@v2
+        with:
+          operation: 'update'
+          classpath: './liquibase'
+          url: 'jdbc:postgresql://${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}'
+          username: '${{ secrets.DB_USER }}'
+          password: '${{ secrets.DB_PASSWORD }}'
